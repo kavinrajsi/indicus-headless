@@ -106,7 +106,7 @@ export default function Footer() {
         <div className="footer__mini">
           <Link href="/">
             <Image
-              src="/images/indicus-logo.svg"
+              src="/images/indicus-footer-logo.svg"
               alt="Indicus"
               width={140}
               height={40}
