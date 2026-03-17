@@ -1,4 +1,12 @@
-const GRAPHQL_URL = process.env.WORDPRESS_GRAPHQL_URL!;
+function getGraphQLURL(): string {
+  const url = process.env.WORDPRESS_GRAPHQL_URL;
+  if (!url) {
+    throw new Error(
+      "WORDPRESS_GRAPHQL_URL is not set. Add it to .env.local or Vercel Environment Variables."
+    );
+  }
+  return url;
+}
 
 interface GraphQLResponse<T> {
   data: T;
@@ -12,7 +20,7 @@ export async function fetchGraphQL<T>(
 ): Promise<T> {
   const { revalidate = 3600, tags } = options ?? {};
 
-  const res = await fetch(GRAPHQL_URL, {
+  const res = await fetch(getGraphQLURL(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
