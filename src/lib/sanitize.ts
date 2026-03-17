@@ -1,14 +1,32 @@
-import DOMPurify from "isomorphic-dompurify";
+import sanitize from "sanitize-html";
 
 /**
  * Sanitize HTML from WordPress to prevent XSS attacks.
- * Allows safe HTML tags (formatting, images, links) but strips scripts.
+ * Allows safe HTML tags (formatting, images, links, iframes) but strips scripts.
  */
 export function sanitizeHTML(dirty: string | undefined | null): string {
   if (!dirty) return "";
-  return DOMPurify.sanitize(dirty, {
-    ADD_TAGS: ["iframe"],
-    ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "loading"],
+  return sanitize(dirty, {
+    allowedTags: sanitize.defaults.allowedTags.concat([
+      "img",
+      "iframe",
+      "figure",
+      "figcaption",
+      "video",
+      "source",
+      "picture",
+    ]),
+    allowedAttributes: {
+      ...sanitize.defaults.allowedAttributes,
+      img: ["src", "srcset", "alt", "title", "width", "height", "loading", "class", "style"],
+      iframe: ["src", "width", "height", "frameborder", "allow", "allowfullscreen", "loading", "title"],
+      div: ["class", "style", "id"],
+      span: ["class", "style"],
+      p: ["class", "style"],
+      a: ["href", "target", "rel", "class", "title"],
+      "*": ["class"],
+    },
+    allowedIframeHostnames: ["www.youtube.com", "youtube.com", "player.vimeo.com"],
   });
 }
 
@@ -18,7 +36,6 @@ export function sanitizeHTML(dirty: string | undefined | null): string {
 export function stripHTML(html: string | undefined | null): string {
   if (!html) return "";
   const stripped = html.replace(/<[^>]+>/g, "");
-  // Decode common HTML entities
   return stripped
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
@@ -32,10 +49,8 @@ export function stripHTML(html: string | undefined | null): string {
     .replace(/&hellip;/g, "\u2026")
     .replace(/&mdash;/g, "\u2014")
     .replace(/&ndash;/g, "\u2013")
-    .replace(/&#8220;/g, "\u201C")
-    .replace(/&#8221;/g, "\u201D")
     .replace(/&#\d+;/g, (match) => {
-      const code = parseInt(match.slice(2, -1));
+      const code = parseInt(match.slice(2, -1), 10);
       return String.fromCharCode(code);
     });
 }
