@@ -1,26 +1,426 @@
 @import "tailwindcss";
 
+/* ══════════════════════════════════════════════════════
+   INDICUS THEME — Ported from indicus.in
+   Source: style.css + main.css from WP theme
+   ══════════════════════════════════════════════════════ */
+
+/* ─── Font Faces (from main.css) ──────────────────── */
+@font-face {
+  font-family: "CeraPro-Regular";
+  src: url("/fonts/Cera-Pro-Regular.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Regular.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "CeraPro-Medium";
+  src: url("/fonts/Cera-Pro-Medium.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Medium.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "CeraPro-Bold";
+  src: url("/fonts/Cera-Pro-Bold.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Bold.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "CeraPro-Black";
+  src: url("/fonts/Cera-Pro-Black.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Black.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+/* Aliases for Tailwind usage */
+@font-face {
+  font-family: "CeraPro";
+  src: url("/fonts/Cera-Pro-Regular.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Regular.woff") format("woff");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "CeraPro";
+  src: url("/fonts/Cera-Pro-Medium.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Medium.woff") format("woff");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "CeraPro";
+  src: url("/fonts/Cera-Pro-Bold.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Bold.woff") format("woff");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "CeraPro";
+  src: url("/fonts/Cera-Pro-Black.woff2") format("woff2"),
+    url("/fonts/Cera-Pro-Black.woff") format("woff");
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+
+/* ─── CSS Variables (from live site) ──────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --purple: #7031BB;
+  --purple-hover: #8160ec;
+  --purple-dark: #5a2799;
+  --teal: #01D3B9;
+  --teal-dark: #097376;
+  --text-dark: #2a2a2a;
+  --text-body: #333;
+  --bg-light: #f2f2f2;
+  --bg-card: #f1f1f1;
+  --bg-section: #f8f8f8;
+  --bg-footer: #7031BB;
+  --white: #fff;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-purple: var(--purple);
+  --color-purple-hover: var(--purple-hover);
+  --color-purple-dark: var(--purple-dark);
+  --color-teal: var(--teal);
+  --color-teal-dark: var(--teal-dark);
+  --color-bg-light: var(--bg-light);
+  --color-bg-card: var(--bg-card);
+  --color-bg-section: var(--bg-section);
+  --color-bg-footer: var(--bg-footer);
+  --font-sans: "CeraPro", system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Global Reset (from main.css) ────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*, :after, :before {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: CeraPro-Regular, CeraPro, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-body);
+  position: relative;
+  text-rendering: geometricPrecision;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  overflow-x: hidden;
 }
+
+a { color: inherit; text-decoration: none; }
+a:focus, a:hover { text-decoration: none; }
+img { max-width: 100%; height: auto; vertical-align: middle; border: 0; }
+svg { overflow: hidden; vertical-align: middle; }
+:focus { outline: 0; }
+
+/* ─── Typography (from style.css) ─────────────────── */
+h1 { font-family: CeraPro-Bold; font-size: 48px; line-height: 60px; }
+h2 { font-family: CeraPro-Bold; font-size: 40px; line-height: 50px; }
+h3 { font-family: CeraPro-Bold; font-size: 32px; line-height: 40px; }
+h4 { font-family: CeraPro-Bold; font-size: 20px; line-height: 26px; }
+h5 { font-family: CeraPro-Bold; font-size: 16px; line-height: 24px; }
+
+/* ─── Container (from main.css) ───────────────────── */
+.container {
+  max-width: 1280px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ─── Section Title (from main.css) ───────────────── */
+.section--title {
+  font-family: CeraPro-Bold;
+  font-size: 28px;
+  line-height: 34px;
+  color: var(--text-dark);
+  margin-bottom: 40px;
+}
+@media (min-width: 768px) {
+  .section--title { font-size: 32px; line-height: 40px; }
+}
+
+/* ─── Buttons (from style.css) ────────────────────── */
+.btn-fill {
+  display: inline-block;
+  background: var(--purple);
+  border-radius: 50px;
+  color: #fff;
+  font-family: CeraPro-Bold;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 16px 32px;
+  transition: 0.3s ease-in-out;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.btn-fill:hover, .btn-fill:focus {
+  background: var(--purple-hover);
+  color: #fff;
+}
+
+.btn-outline {
+  display: inline-block;
+  border: 2px solid var(--purple);
+  border-radius: 50px;
+  color: var(--purple);
+  font-family: CeraPro-Bold;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 14px 30px;
+  transition: 0.3s ease-in-out;
+  text-decoration: none;
+  cursor: pointer;
+  background: transparent;
+}
+.btn-outline:hover {
+  background: var(--purple);
+  color: #fff;
+}
+
+.btn-white {
+  display: inline-block;
+  background: #fff;
+  border-radius: 134.212px;
+  font-family: CeraPro-Bold;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: var(--teal-dark);
+  padding: 16px 32px;
+  text-decoration: none;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.btn-white:hover { color: #fff; background-color: var(--purple-hover); }
+
+/* ─── Header / Nav (from main.css) ────────────────── */
+.menu--container__wrapper, header {
+  background-color: #fff;
+}
+.menu--container__wrapper { z-index: 12; }
+.menu--container__wrapper .menu--container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px;
+}
+.menu--container__wrapper .menu--logo { width: 152px; height: auto; }
+@media (min-width: 992px) {
+  .menu--container__wrapper .menu--logo { width: 240px; height: 54px; }
+}
+.menu--container__wrapper .menu--logo a { display: block; }
+
+.menu--item__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-family: CeraPro-Medium;
+  font-size: 16px;
+  line-height: normal;
+  padding: 16px 12px;
+  margin: 0 14px;
+  position: relative;
+}
+@media (min-width: 768px) {
+  .menu--item__link { padding: 30px 8px; }
+}
+.menu--item__link::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--purple);
+  position: absolute;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  transition: width 0.2s;
+}
+.menu--item__link:hover { color: var(--purple); }
+.menu--item__link:hover::before { width: 100%; }
+
+.menu--items { display: none; }
+@media (min-width: 992px) {
+  .menu--items { display: flex; align-items: center; }
+}
+
+/* ─── Footer (from main.css) ──────────────────────── */
+footer { background-color: var(--bg-footer); }
+
+.footer__main {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .footer__main { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+}
+@media (min-width: 1162px) {
+  .footer__main { gap: 20px; grid-template-columns: repeat(5, 1fr); }
+}
+
+.footer__nav--title {
+  font-family: CeraPro-Bold;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.footer__nav--list { list-style: none; padding: 0; margin: 0; }
+.footer__nav--list li { margin-bottom: 8px; }
+.footer__nav--list a {
+  font-family: CeraPro-Regular;
+  font-size: 16px;
+  line-height: 26px;
+  color: #fff;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.footer__nav--list a:hover { opacity: 1; }
+
+.footer__nav--contact-list { margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+.footer__nav--contact-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: CeraPro-Regular;
+  font-size: 16px;
+  color: #fff;
+  opacity: 0.85;
+}
+.footer__nav--contact-list a:hover { opacity: 1; }
+
+.footer__nav--social-list { display: flex; gap: 16px; }
+.footer__nav--social-list a { opacity: 0.7; transition: opacity 0.2s; }
+.footer__nav--social-list a:hover { opacity: 1; }
+
+.footer__mini {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 24px;
+  margin-top: 32px;
+}
+
+.footer__nav--policy-list { font-size: 14px; line-height: 20px; color: #fff; display: flex; gap: 16px; }
+.footer__nav--policy-list a { opacity: 0.7; }
+.footer__nav--policy-list a:hover { opacity: 1; }
+
+.footer__nav--copyright {
+  margin-top: 8px;
+  font-size: 10px;
+  line-height: 20px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Footer mobile accordion */
+@media (max-width: 767px) {
+  .footer__nav--lists .footer__nav--title { cursor: pointer; }
+}
+
+/* ─── Product Cards (from main.css) ───────────────── */
+.product--card__mini {
+  max-width: 260px;
+  border-radius: 25px;
+  padding: 24px;
+  background-color: var(--bg-card);
+}
+.product--card__mini .product--image img {
+  text-align: center; margin: 0 auto; display: block;
+}
+.product--card__mini .product--title {
+  font-family: CeraPro-Bold;
+  font-size: 20px; line-height: 26px;
+  text-align: center; color: #000;
+  margin-bottom: 8px;
+}
+.product--card__mini .product--type {
+  font-size: 14px; line-height: 20px;
+  text-align: center; color: #000;
+  min-height: 40px;
+}
+
+/* ─── Product Detail (from main.css) ──────────────── */
+.product--detail__icon-content {
+  border-radius: 25px;
+  padding: 24px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+.product--detail__icon-content .icon { width: 56px; height: 56px; }
+.product--detail__icon-content h4 {
+  margin-top: 8px;
+  font-family: CeraPro-Bold;
+  font-size: 20px; line-height: 26px;
+  color: #1e1e1e;
+}
+.product--detail__icon-content p {
+  margin-top: 16px;
+  font-size: 16px; line-height: 24px; color: #1e1e1e;
+}
+
+/* ─── Colour Palette (from style.css) ─────────────── */
+.colour-main-outer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.colour-main-outer ul li .color-box {
+  height: 132px;
+  border-radius: 100px 100px 0 0;
+  overflow: hidden;
+}
+.colour-main-outer ul li span.color-name {
+  color: #000;
+  font-size: 14px;
+  font-family: CeraPro-Regular;
+  margin: 8px 0 0;
+  display: block;
+  text-align: center;
+}
+
+/* ─── Search (from main.css) ──────────────────────── */
+.pro-filter input {
+  width: 100%;
+  border: none;
+  outline: 0;
+  border-bottom: 1px solid #d3d3d3;
+  font-size: 18px;
+  line-height: 24px;
+  color: #333;
+  padding: 16px 46px;
+  font-family: CeraPro-Regular;
+}
+
+/* ─── WordPress Content ───────────────────────────── */
+.wp-content h1, .wp-content h2, .wp-content h3,
+.wp-content h4, .wp-content h5, .wp-content h6 {
+  font-family: CeraPro-Bold;
+  margin-top: 1.5em; margin-bottom: 0.5em;
+}
+.wp-content p { margin-bottom: 1em; line-height: 1.75; }
+.wp-content img { max-width: 100%; height: auto; border-radius: 0.5rem; }
+.wp-content ul { list-style: disc; padding-left: 1.5em; margin-bottom: 1em; }
+.wp-content ol { list-style: decimal; padding-left: 1.5em; margin-bottom: 1em; }
+.wp-content a { color: var(--purple); text-decoration: underline; }
+
+/* ─── Utility Classes ─────────────────────────────── */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.text-center { text-align: center; }
+
+/* ─── Padding Helpers (from main.css) ─────────────── */
+.pt-55 { padding-top: 55px; }
+.pb-55 { padding-bottom: 55px; }
+.pt-80 { padding-top: 80px; }
+.pb-80 { padding-bottom: 80px; }
+.pb-60 { padding-bottom: 60px; }
