@@ -24,8 +24,44 @@ export async function getColours(): Promise<Color[]> {
   }
 }
 
+// Fetch all terms for a WP taxonomy, keyed by term ID
+async function fetchTaxonomyTerms(
+  taxonomy: string
+): Promise<Map<number, TaxonomyNode>> {
+  const map = new Map<number, TaxonomyNode>();
+  try {
+    let page = 1;
+    let hasMore = true;
+    while (hasMore) {
+      const res = await fetch(
+        `${WP_URL}/wp-json/wp/v2/${taxonomy}?per_page=100&page=${page}&_fields=id,name,slug`,
+        { next: { revalidate: 3600, tags: ["colours"] } }
+      );
+      if (!res.ok) break;
+      const terms = await res.json();
+      if (!terms.length) break;
+      for (const t of terms) {
+        map.set(t.id, { name: t.name, slug: t.slug });
+      }
+      const total = parseInt(res.headers.get("X-WP-TotalPages") || "1");
+      hasMore = page < total;
+      page++;
+    }
+  } catch (e) {
+    console.error(`Failed to fetch taxonomy "${taxonomy}":`, e);
+  }
+  return map;
+}
+
 async function getColoursREST(): Promise<Color[]> {
   try {
+    // Fetch taxonomy term lookups in parallel with first page of colours
+    const [categoryTerms, temperatureTerms, tonalityTerms] = await Promise.all([
+      fetchTaxonomyTerms("colour-category"),
+      fetchTaxonomyTerms("temperature"),
+      fetchTaxonomyTerms("tonality"),
+    ]);
+
     const allColors: Color[] = [];
     let page = 1;
     let hasMore = true;
@@ -42,6 +78,10 @@ async function getColoursREST(): Promise<Color[]> {
       if (!posts.length) break;
 
       for (const p of posts) {
+        const catIds: number[] = p["colour-category"] || [];
+        const tempIds: number[] = p["temperature"] || [];
+        const tonIds: number[] = p["tonality"] || [];
+
         allColors.push({
           id: String(p.id),
           databaseId: p.id,
@@ -50,9 +90,21 @@ async function getColoursREST(): Promise<Color[]> {
           colorFields: {
             colorCode: p.meta?.color_code || "",
           },
-          colourCategories: { nodes: [] },
-          temperatures: { nodes: [] },
-          tonalities: { nodes: [] },
+          colourCategories: {
+            nodes: catIds
+              .map((id) => categoryTerms.get(id))
+              .filter((t): t is TaxonomyNode => !!t),
+          },
+          temperatures: {
+            nodes: tempIds
+              .map((id) => temperatureTerms.get(id))
+              .filter((t): t is TaxonomyNode => !!t),
+          },
+          tonalities: {
+            nodes: tonIds
+              .map((id) => tonalityTerms.get(id))
+              .filter((t): t is TaxonomyNode => !!t),
+          },
         });
       }
 
