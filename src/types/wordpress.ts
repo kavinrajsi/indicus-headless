@@ -104,16 +104,17 @@ export interface Product {
   excerpt: string;
   featuredImage?: MediaItem;
   productFields?: ProductACF;
-  applicationAreas?: {
+  // GraphQL returns singular names for these taxonomies
+  applicationArea?: {
     nodes: TaxonomyNode[];
   };
-  productTypes?: {
+  productType?: {
     nodes: TaxonomyNode[];
   };
-  applicationSurfaces?: {
+  applicationSurface?: {
     nodes: TaxonomyNode[];
   };
-  finishes?: {
+  finish?: {
     nodes: TaxonomyNode[];
   };
 }

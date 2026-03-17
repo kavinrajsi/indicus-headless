@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Post, TaxonomyNode } from "@/types/wordpress";
+import { sanitizeHTML } from "@/lib/sanitize";
 
 interface Props {
   initialPosts: Post[];
@@ -128,7 +129,7 @@ export default function BlogArchive({
                   {post.excerpt && (
                     <div
                       className="mt-2 line-clamp-2 text-sm text-gray-500"
-                      dangerouslySetInnerHTML={{ __html: post.excerpt }}
+                      dangerouslySetInnerHTML={{ __html: sanitizeHTML(post.excerpt) }}
                     />
                   )}
                   <time className="mt-3 block text-xs text-gray-400">

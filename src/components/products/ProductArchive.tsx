@@ -13,10 +13,10 @@ interface Taxonomies {
 }
 
 const FILTER_GROUPS = [
-  { key: "applicationAreas" as const, label: "Application Area", productField: "applicationArea" },
-  { key: "productTypes" as const, label: "Product Type", productField: "productType" },
-  { key: "applicationSurfaces" as const, label: "Application Surface", productField: "applicationSurface" },
-  { key: "finishes" as const, label: "Finish", productField: "finish" },
+  { key: "applicationAreas" as const, label: "Application Area", productField: "applicationArea" as const },
+  { key: "productTypes" as const, label: "Product Type", productField: "productType" as const },
+  { key: "applicationSurfaces" as const, label: "Application Surface", productField: "applicationSurface" as const },
+  { key: "finishes" as const, label: "Finish", productField: "finish" as const },
 ];
 
 export default function ProductArchive({
@@ -34,8 +34,7 @@ export default function ProductArchive({
       return FILTER_GROUPS.every(({ key, productField }) => {
         const selected = filters[key];
         if (!selected) return true;
-        const productTerms =
-          product[productField as keyof Product] as { nodes: TaxonomyNode[] } | undefined;
+        const productTerms = product[productField];
         return productTerms?.nodes?.some((t) => t.slug === selected);
       });
     });

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getProductBySlug, getProductSlugs, getProductACFFields } from "@/lib/queries/products";
+import { sanitizeHTML } from "@/lib/sanitize";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -183,7 +184,7 @@ export default async function ProductPage({ params }: Props) {
           <div className="container mx-auto px-4 lg:px-8">
             <div
               className="wp-content prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: product.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHTML(product.content) }}
             />
           </div>
         </section>
@@ -195,7 +196,7 @@ export default async function ProductPage({ params }: Props) {
           <div className="container mx-auto px-4 lg:px-8">
             <div
               className="wp-content prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: info }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHTML(info) }}
             />
           </div>
         </section>

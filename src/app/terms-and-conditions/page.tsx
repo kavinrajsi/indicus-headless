@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getPageBySlug } from "@/lib/queries/pages";
+import { sanitizeHTML } from "@/lib/sanitize";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
@@ -22,7 +23,7 @@ export default async function TermsPage() {
           {page?.content ? (
             <div
               className="wp-content prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: page.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHTML(page.content) }}
             />
           ) : (
             <p className="text-gray-500">Content loading...</p>

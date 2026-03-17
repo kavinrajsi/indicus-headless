@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getPostBySlug, getPostSlugs } from "@/lib/queries/posts";
+import { sanitizeHTML, stripHTML } from "@/lib/sanitize";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: post.title,
-    description: post.excerpt?.replace(/<[^>]+>/g, "").slice(0, 160),
+    description: stripHTML(post.excerpt ?? "").slice(0, 160),
     openGraph: {
       title: post.title,
       type: "article",
@@ -82,7 +83,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Content */}
         <div
           className="wp-content prose mt-8 max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(post.content) }}
         />
 
         {/* Tags */}

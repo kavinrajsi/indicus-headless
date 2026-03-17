@@ -32,7 +32,7 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" aria-label="Indicus" className="flex shrink-0 items-center gap-2">
           <Image
-            src="https://indicus.in/wp-content/uploads/2024/02/indicus-logo.svg"
+            src="/images/indicus-logo.svg"
             alt="Indicus Paints"
             width={160}
             height={50}

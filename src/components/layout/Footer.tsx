@@ -106,7 +106,7 @@ export default function Footer() {
         <div className="footer__mini">
           <Link href="/">
             <Image
-              src="https://indicus.in/wp-content/uploads/2024/02/indicus-logo.svg"
+              src="/images/indicus-logo.svg"
               alt="Indicus"
               width={140}
               height={40}

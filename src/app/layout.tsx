@@ -29,10 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <GTMHead />
-      </head>
       <body className="antialiased">
+        <GTMHead />
         <GTMBody />
         <Header />
         <main className="min-h-screen pt-16">{children}</main>
